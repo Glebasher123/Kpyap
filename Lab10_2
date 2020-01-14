@@ -1,0 +1,112 @@
+using System;
+using System.Collections.Generic;
+
+
+namespace kpiap10_2
+{
+    class Program
+    {
+        class Library
+        {
+            string name;
+            List<book> books = new List<book>();
+
+            public Library(string Name)
+            {
+                name = Name;
+            }
+
+            public void PrintBooks()
+            {
+                books.ForEach((x) => { Console.WriteLine($"{x.name}, {x.year}, {x.category}"); });
+            }
+
+            public void AddBook(string Name, int Year, string Category)
+            {
+                books.Add(new book(Name, Year, Category));
+            }
+
+            public void RemoveBook(string Name, int Year, string Category)
+            {
+                books.Remove(new book(Name, Year, Category));
+            }
+
+            public void Get_book(int num)
+            {
+                var x = books[num-1];
+                Console.WriteLine($"{x.name}, {x.year}, {x.category}");
+            }
+
+            public void Search_By_Year(int Year)
+            {
+                books.ForEach((x) => {
+                    if (x.year == Year)
+                    {
+                        Console.WriteLine($"{x.name}, {x.year}, {x.category}");
+                    }
+                });
+            }
+
+            public void Search_By_Name(string Name)
+            {
+                books.ForEach((x) => {
+                    if (x.name == Name)
+                    {
+                        Console.WriteLine($"{x.name}, {x.year}, {x.category}");
+                    }
+                });
+            }
+
+            public void Search_By_Category(string Category)
+            {
+                books.ForEach((x) => {
+                    if (x.category == Category)
+                    {
+                        Console.WriteLine($"{x.name} {x.year} {x.category}");
+                    }
+                });
+            }
+
+        }
+
+        class book : IEquatable<book>
+        {
+            public string name;
+            public int year;
+            public string category;
+
+            public book(string Name, int Year, string Category)
+            {
+                name = Name;
+                year = Year;
+                category = Category;
+            }
+           
+            public bool Equals(book other)
+            {
+                return name.Equals(other.name);
+            }
+        }
+        static void Main(string[] args)
+        {
+            var lib = new Library("BookLibrary");
+            lib.AddBook("Богатство", 2012, "Бизнес");
+            lib.AddBook("Булгаков", 2002, "Художетсвенная");
+            lib.AddBook("Чайковский", 1924, "Стихи");
+            lib.PrintBooks();
+            Console.WriteLine();
+            Console.Write($" Просматриваем книгу - ");
+            lib.Get_book(2);
+            Console.Write($" Найдена книга по названию - ");
+            lib.Search_By_Name("Богатство");
+            Console.Write($" Найдена книга по категории - ");
+            lib.Search_By_Category("Стихи");
+            Console.Write($" Найдена книга по году издания - ");
+            lib.Search_By_Year(2012);
+
+
+            Console.ReadKey();
+
+        }
+    }
+}
