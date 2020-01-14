@@ -1,0 +1,133 @@
+using System;
+using System.Threading;
+
+namespace kpiap9lab
+{
+
+    class Program
+    {
+        class ATC
+        {
+            DateTime CallDate;
+            int code;
+            string city;
+            TimeSpan TalkTime;
+            double rate;
+
+            public ATC(int c, double r, string cit)
+            {
+                code = c;
+                rate = r;
+                city = cit;
+            }
+            public DateTime RandomCallDate()
+            {
+                Random rand = new Random();
+                Thread.Sleep(10);
+
+                for (int i = 0; i < 10; i++)
+                {
+                    CallDate = DateTime.Now.AddDays(-rand.Next(1, 10000));
+
+                }
+                return CallDate;
+            }
+            public string RandNumber()
+            {
+                var rand = new Random();
+
+                int first = rand.Next(100, 999);
+                Thread.Sleep(10);
+                int second = rand.Next(10, 99);
+                Thread.Sleep(10);
+                int third = rand.Next(10, 99);
+                Thread.Sleep(10);
+
+                var vals = new int[] { 29, 44, 25, 33 };
+                var val = vals[rand.Next(vals.Length)];
+                Thread.Sleep(10);
+
+                return $"+375({val}) {first}-{second}-{third}";
+
+            }
+            public void SumTax()
+            {
+                Console.WriteLine("Общая сумма разговоров: " + rate * Convert.ToInt32(this.TalkTime.TotalMinutes));
+            }
+
+            public TimeSpan SumTime(TimeSpan flex)
+            {
+                TalkTime += flex;
+
+                return flex;
+
+            }
+            public void RandTalkTime()
+            {
+                Random rand = new Random();
+                for (int i = 0; i < 9; i++)
+                {
+                    TimeSpan temp = SumTime(TimeSpan.FromMinutes(rand.Next(1, 60)));
+                    Console.WriteLine(RandomCallDate() + "\t" + RandNumber() + "\t" + "Время разговора: " + temp + "\t" + "Сумма разговора: " + rate * Convert.ToInt32(temp.TotalMinutes));
+                }
+                Console.WriteLine("Общее время разговоров: " + TalkTime);
+            }
+
+
+        }
+        static void Main(string[] args)
+        {
+
+            Console.WriteLine("Брест - 1 \nВитебск - 2 \nГомель - 3\nМинск - 7");
+            while (true)
+            {
+
+                Console.WriteLine("Введите город: ");
+
+
+                int selection = Convert.ToInt32(Console.ReadLine());
+
+
+                switch (selection)
+                {
+                    case 7:
+                        var city1 = new ATC(7, 1.1, "Минск");
+                        city1.RandNumber();
+                        city1.RandTalkTime();
+                        city1.RandomCallDate();
+                        city1.SumTax();
+
+                        break;
+                    case 1:
+                        var city2 = new ATC(1, 0.8, "Брест");
+                        city2.RandNumber();
+                        city2.RandTalkTime();
+                        city2.RandomCallDate();
+                        city2.SumTax();
+                        break;
+                    case 2:
+                        var city3 = new ATC(2, 0.6, "Витебск");
+                        city3.RandNumber();
+                        city3.RandTalkTime();
+                        city3.RandomCallDate();
+                        city3.SumTax();
+                        break;
+                    case 3:
+                        var city4 = new ATC(3, 0.4, "Гомель");
+                        city4.RandNumber();
+                        city4.RandTalkTime();
+                        city4.RandomCallDate();
+                        city4.SumTax();
+                        break;
+                    default:
+                        Console.WriteLine("Bad");
+                        break;
+                }
+            }
+
+
+
+
+        }
+    }
+}
