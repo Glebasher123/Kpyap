@@ -1,0 +1,80 @@
+using System;
+
+
+namespace kpiap2lab
+{
+    class Program
+    {
+        static void Task1()
+        {
+            Console.Write("Число а - ");
+            int a = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Число b - ");
+            int b = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Число c - ");
+            int c = Convert.ToInt32(Console.ReadLine());
+
+            if (a > b && a > c)
+                Console.WriteLine("Максимальное число = " + a);
+            else if (b > c)
+                Console.WriteLine("Максимальное число  = " + b);
+            else
+                Console.WriteLine("Максимальное число  = " + c);
+
+            Console.ReadLine();
+        }
+        public static int GCD(int a, int b)
+        {
+            while (a != 0 && b != 0)
+            {
+                if (a > b)
+                    a %= b;
+                else
+                    b %= a;
+            }
+
+            return a == 0 ? b : a;
+        }
+        public static int LCM(int a, int b)
+        {
+            int num1;
+            int num2;
+            if (a > b)
+            {
+                num1 = a;
+                num2 = b;
+            }
+            else
+            {
+                num1 = b;
+                num2 = a;
+            }
+
+            for (int i = 1; i < num2; i++)
+            {
+                if ((num1 * i) % num2 == 0)
+                {
+                    return i * num1;
+                }
+            }
+
+            return -1;
+        }
+        static void Main(string[] args)
+            {
+            //Task1();
+            int a = 16;
+            int b = 18;
+            int c = 24;
+
+            int res = Program.GCD(a, Program.GCD(b, c));
+            int result = Program.LCM(a, Program.LCM(b, c));
+
+            Console.WriteLine(res);
+            Console.WriteLine(result);
+
+            Console.ReadLine();
+            
+        }
+    }
+}
