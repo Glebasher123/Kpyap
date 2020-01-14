@@ -1,0 +1,160 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Gleb_17_2
+{
+    class Program
+    {
+        static void ItsFirst()
+        {
+            using (StreamWriter sw = new StreamWriter("Flex.txt", false, System.Text.Encoding.Default))
+            {
+                sw.WriteLine("123456789");
+                sw.WriteLine("987654321");
+            }
+            Stack<char> ListOfFlex = new Stack<char>();
+            using (var sr = new StreamReader("Flex.txt"))
+            {
+                var str = sr.ReadLine().ToCharArray();
+                var str2 = sr.ReadLine().ToCharArray();
+
+                foreach (var f in str)
+                {
+                    ListOfFlex.Push(f);
+                }
+                bool flag = true;
+                foreach(var f in str2)
+                {
+                    char temp = ListOfFlex.Pop();
+                    if(f != temp)
+                    {
+                        flag = false;
+                        break;
+                    }
+                }
+                    Console.WriteLine(flag);
+
+            }
+            Console.WriteLine();
+        }
+
+        static void ItsSecond()
+        {
+            using (StreamWriter sw = new StreamWriter("NumFlex.txt", false, System.Text.Encoding.Default))
+            {
+                sw.WriteLine("1,3,4,5,6,7,8,-3,-5,2,3,-5");
+            }
+
+
+            using (var sr = new StreamReader("NumFlex.txt"))
+            {
+                var str = sr.ReadLine().Split(',');
+                Queue<string> ListOfFlex = new Queue<string>();
+
+                foreach (var s in str)
+                {
+                    if (Convert.ToInt32(s) > 0)
+                    {
+                        ListOfFlex.Enqueue(s);
+                    }
+                }
+
+                foreach (var s in str)
+                {
+                    if (Convert.ToInt32(s) < 0)
+                    {
+                        ListOfFlex.Enqueue(s);
+                    }
+                }
+
+                foreach (var p in ListOfFlex)
+                {
+                    Console.WriteLine(p);
+                }
+            }
+        }
+
+        struct car : IComparable
+        {
+            public string Mark;
+            public string FIO;
+            public int Number;
+            public int Year;
+            public int Runner;
+
+            public int CompareTo(object obj)
+            {
+                car that = (car)obj;
+
+                if (Runner > that.Runner)
+                {
+                    return -1;
+                }
+
+                if (Runner < that.Runner)
+                {
+                    return 1;
+                }
+
+                if (Runner > that.Runner)
+                {
+                    return -1;
+                }
+
+                if (Runner < that.Runner)
+                {
+                    return 1;
+                }
+
+                return 0;
+            }
+        }
+
+        static void ItsThird()
+        {
+            var Files = File.ReadAllLines("Input.txt");
+            ArrayList ArrFlex = new ArrayList();
+            foreach (var F in Files)
+            {
+                string[] str = F.Split('|');
+                var std = new car
+                {
+                    FIO = str[0],
+                    Number = Convert.ToInt32(str[1]),
+                    Mark = str[2],
+                    Year = Convert.ToInt32(str[3]),
+                    Runner = Convert.ToInt32(str[4])
+                };
+                ArrFlex.Add(std);
+            }
+            using (StreamWriter sw = new StreamWriter("Output.txt", false))
+            {
+                ArrFlex.Sort();
+                foreach (var stud in ArrFlex)
+                {
+                    var f = (car)stud;
+                    if(f.Year > 2002)
+                    {
+                        Console.WriteLine(f.FIO + " " + f.Number + " " + f.Mark + " " + f.Year + " " + f.Runner);
+                        sw.WriteLine(f.FIO + " " + f.Number + " " + f.Mark + " " + f.Year + " " + f.Runner);
+                    }
+                }
+            }
+
+            Console.WriteLine("Done");
+        }
+
+        static void Main(string[] args)
+        {
+            ItsFirst();
+            ItsSecond();
+            ItsThird();
+            Console.ReadKey();
+        }
+    }
+}
