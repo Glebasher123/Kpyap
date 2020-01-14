@@ -1,0 +1,198 @@
+using System;
+using System.Collections.Generic;
+using System.Threading;
+
+namespace kpiap13._2
+{
+    class Program
+    {
+
+        delegate void FreeSeatsHoundler(object Obj, MyClassEventArgs m);
+
+        class MyClassEventArgs
+        {
+            public string message;
+            public int n;
+            public MyClassEventArgs(string message, int n)
+            {
+                this.message = message;
+                this.n = n;
+            }
+        }
+        class RailwayOffice
+        {
+            public event FreeSeatsHoundler Adding;
+            public event FreeSeatsHoundler Eaten;
+
+            int countfree;
+            string city;
+            int amount;
+            int count = 1;
+
+
+            delegate void Hello();
+            Hello hello1 = () => Console.WriteLine("Created");
+            public RailwayOffice()
+            {
+                
+                hello1();
+                CountFree();
+                RandCity();
+                ShowAll();         
+            }
+
+            public void CountFree()
+            {
+                Random rand = new Random();
+                countfree = rand.Next(1, 50);
+            }
+
+            public void RandCity()
+            {
+
+                string[] arr = { "Киев", "Москва", "Брест", "Минск", "Сочи", "Анапа" };
+                string str = arr[new Random().Next(0, arr.Length)];
+
+                city = str;
+            }
+
+            public DateTime RandTime()
+            {
+                Random rand = new Random();
+                DateTime DTime = DateTime.Now.AddHours(rand.Next(0, 5)).AddMinutes(rand.Next(0, 60));
+
+                return DTime;
+            }
+
+            public string GetCity()
+            {
+                return city;
+            }
+            public void Input(int k)
+            {
+                if (Adding != null)
+                {
+                    amount += k;
+                    Adding(this,new MyClassEventArgs("Добавлено мест ", k));
+                }
+            }
+            public void Output(int k)
+            {
+                if (amount > k)
+                {
+                    if (Eaten != null)
+                    {
+                        amount -= k;
+                        Eaten(this,new MyClassEventArgs("Забронировали места ", k));
+                    }
+                }
+                else if (Eaten != null)
+                {
+                    Eaten(this,new MyClassEventArgs("Не хватает мест, осталось ", amount));
+                }
+            }
+            public void ShowAll()
+            {
+                Console.WriteLine($"Пункт назначения - {GetCity()} \t Время отправления - {RandTime()} \t Число свободных мест - {countfree}");
+                Adding = PrintA;
+                Adding(this,new MyClassEventArgs("Рейс создан. ", count));
+            }
+            
+            public void PrintA(object Obj,MyClassEventArgs s)
+            {
+                Console.WriteLine("Сообщение: " + s.message + s.n);
+            }
+            public void PrintB(object Obj, MyClassEventArgs s)
+            {
+                Console.WriteLine("Сообщение: " + s.message + s.n);
+            }
+
+            public void  AddInput(RailwayOffice railwayOffice, List<RailwayOffice> ListCity, int k)
+            {
+                Console.Write("Сколько мест добавить: ");
+                int n = Convert.ToInt32(Console.ReadLine());
+                amount = ListCity[k].countfree;
+                ListCity[k].countfree += n;
+                Adding = PrintA;
+                Input(n);
+                Switch(railwayOffice, ListCity);
+            }
+
+            public void MinusInput(RailwayOffice railwayOffice, List<RailwayOffice> ListCity, int k)
+            {
+                Console.Write("Сколько мест забронировать: ");
+                int n = Convert.ToInt32(Console.ReadLine());
+                amount = ListCity[k].countfree;
+                ListCity[k].countfree -= n;
+                Eaten = PrintB;
+                Output(n);
+                Switch(railwayOffice, ListCity);
+            }
+
+            public void Switch (RailwayOffice railwayOffice, List<RailwayOffice> ListCity)
+            {
+                Console.WriteLine("Введите:\n1 - добавить количество мест в 1 город \n2 - добавить количество мест в 2 город\n3 - добавить количество мест в 3 город\n4 - Забронировать количество мест в 1 город \n5 - Забронировать количество мест в 2 город\n6 - Забронировать количество мест в 3 город");
+                int m = Convert.ToInt32(Console.ReadLine());
+                switch (m)
+                {
+                    case 1:
+                        AddInput(railwayOffice, ListCity, 0);
+                        break;
+                    case 2:
+                        AddInput(railwayOffice, ListCity, 1);
+                        break;
+                    case 3:
+                        AddInput(railwayOffice, ListCity, 2);
+                        break;
+                    case 4:
+                        MinusInput(railwayOffice, ListCity, 0);
+                        break;
+                    case 5:
+                        MinusInput(railwayOffice, ListCity, 1);
+                        break;
+                    case 6:
+                        MinusInput(railwayOffice, ListCity, 2);
+                        break;
+                    default:
+                        Console.WriteLine("Ошибка! Попробуйте еще раз");
+                        Switch(railwayOffice, ListCity);
+                        break;
+                }
+            }
+   
+        }
+
+        static void Main(string[] args)
+        {
+            try
+            {
+                List<RailwayOffice> ListCity = new List<RailwayOffice>();
+
+                RailwayOffice railwayOffice = new RailwayOffice();
+                Thread.Sleep(500);
+
+                RailwayOffice railwayOffice1 = new RailwayOffice();
+                Thread.Sleep(500);
+
+                RailwayOffice railwayOffice2 = new RailwayOffice();
+                Thread.Sleep(500);
+
+                ListCity.Add(railwayOffice);
+                ListCity.Add(railwayOffice1);
+                ListCity.Add(railwayOffice2);
+
+
+                railwayOffice.Switch(railwayOffice, ListCity);
+
+
+                
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            Console.ReadKey();
+        }
+    }
+}
