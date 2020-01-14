@@ -1,0 +1,73 @@
+using System;
+
+namespace kpiap6lab
+{
+    class Program
+    {
+        static void Task1()
+        {
+            DateTime[] datemass = new DateTime[10];
+            int[] days = new int[datemass.Length];
+
+            Random rand = new Random();
+
+            for (int i = 0; i < datemass.Length; i++)
+            {
+                datemass[i] = DateTime.Now.AddDays(rand.Next(-2000, 0));
+            }
+
+            for (int i = 0; i < datemass.Length; i++)
+            {
+                Console.WriteLine($"Сотрудник {i + 1} принят: {datemass[i].ToString("D")}");
+            }
+            Console.WriteLine("------------------------------------");
+
+            for (int i = 0; i < datemass.Length; i++)
+            {
+                days[i] = (DateTime.Now - datemass[i]).Days;
+                Console.WriteLine($"Сотрудник {i + 1} проработал: {days[i] - 63} дней.");
+            }          
+        }
+
+        static void Task2 ()
+        {
+            Console.Write("Введите размерность массива: ");
+            int n = Convert.ToInt32(Console.ReadLine());
+            int[] arr = new int[n];
+
+            Random rand = new Random();
+            for (int i = 0; i < arr.Length; i++)
+            {
+                arr[i] = rand.Next(10, 1000);
+            }
+
+            for (int i = 0; i < arr.Length; i++)
+            {
+                for (int j = 0; j < arr.Length - i - 1; j++)
+                {
+                    if (arr[j] > arr[j + 1])
+                    {
+                        int temp = arr[j];
+                        arr[j] = arr[j + 1];
+                        arr[j + 1] = temp;
+                    }
+                }
+            }
+
+            for (int i = 0; i < arr.Length; i++)
+            {
+                Console.WriteLine($"{arr[i].ToString("E01")} ");
+            }
+        }
+
+
+        static void Main(string[] args)
+        {
+            //Task1();
+
+            Task2();
+
+            Console.ReadKey();
+        }
+    }
+}
