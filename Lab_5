@@ -1,0 +1,132 @@
+using System;
+using System.Text;
+
+namespace lab5kpiap
+{
+    class Program
+    {
+        static void TaskString()
+        {
+            string s1 = "привет мир";
+            string s2 = "мир";
+
+            Console.WriteLine(s1.ToLower().IndexOf(s2.ToLower()) >= 0);
+            Console.WriteLine(s1.ToLower().LastIndexOf(s2.ToLower()));
+
+        }
+
+        static void TaskBuilder()
+        {
+            StringBuilder s1 = new StringBuilder("привет мир");
+            StringBuilder s2 = new StringBuilder("мир");
+
+            int counter = 0;
+            bool flag = false;
+            for (int i = 0; i < s2.Length; ++i)
+            {
+                for (int j = 0; j < s1.Length; ++j)
+                {
+                    if (s1[j] == s2[i])
+                    {
+                        for (int z = 0; z < s2.Length; ++z)
+                        {
+                            if (s1[j + z].Equals(s2[z]))
+                            {
+                                if (flag == true)
+                                {
+                                    counter = j;
+                                }
+                                flag = true;
+
+                            }
+                            else
+                            {
+                                flag = false;
+                                counter = 0;
+                                break;
+                            }
+                        }
+
+                        if (flag == true)
+                        {
+                            Console.WriteLine($"{flag} pos {counter}");
+                            goto Finish;
+                        }
+
+
+
+                    }
+                }
+
+            }
+        Finish:
+            if (flag == false)
+            {
+                Console.WriteLine($"{flag}");
+            }
+        }
+
+        static void TaskChar()
+        {
+            char[] s1 = "привет мир".ToCharArray();
+            char[] s2 = "мир".ToCharArray();
+            int counter = 0;
+            bool flag = false;
+            for (int i = 0; i < s2.Length; ++i)
+            {
+                for (int j = 0; j < s1.Length; ++j)
+                {
+                    if (s1[j] == s2[i])
+                    {
+                        for (int z = 0; z < s2.Length; ++z)
+                        {
+                            if (s1[j + z].Equals(s2[z]))
+                            {
+                                if (!flag)
+                                {
+                                    counter = j;
+                                }
+                                flag = true;
+
+                            }
+                            else
+                            {
+                                flag = false;
+                                counter = 0;
+                                break;
+                            }
+                        }
+
+                        if (flag == true)
+                        {
+                            Console.WriteLine($"{flag} pos {counter}");
+                            goto Finish;
+                        }
+
+
+
+                    }
+                }
+
+            }
+        Finish:
+            if (flag == false)
+            {
+                Console.WriteLine($"{flag}");
+            }
+
+
+        }
+
+        static void Main(string[] args)
+        {
+            //TaskChar();
+            TaskBuilder();
+            //TaskString();
+
+
+            Console.ReadKey();
+
+        }
+    }
+}
