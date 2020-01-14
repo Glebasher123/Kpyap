@@ -1,0 +1,75 @@
+using System;
+
+
+namespace kpyap11_2
+{
+    class Program
+    {
+        abstract class PAIR
+        {
+            protected int first;
+            protected int second;
+
+            public PAIR(int First, int Second)
+            {
+                first = First;
+                second = Second;
+            }
+
+            public void Amount()
+            {
+                Console.WriteLine("Сумма чисел - " + first + second);
+            }
+
+            public string Formula(double c, double d)
+            {
+                double num1 = first + second;
+                double num2 = c + d;
+                Console.WriteLine($"(a, b) - (c, d) = {num1},{num2}");
+                return $"({num1},{num2})";
+            }
+
+            public abstract double minus();
+        }
+
+        class LONG : PAIR
+        {
+            int Old;
+            int Jun;
+
+            public LONG(int Num, int Denum, int first, int second) : base(first, second)
+            {
+                Old = Num;
+                Jun = Denum;
+            }
+
+            public override double minus()
+            {
+                return (Old / Jun) - (first / second);
+            }
+
+            public double plus()
+            {
+                return (Old / Jun) + (first / second);
+            }
+
+            public double Mul()
+            {
+                return (Old / Jun) * (first / second);
+            }
+
+        }
+        static void Main(string[] args)
+        {
+            LONG long1 = new LONG(10, 12, 34, 22);
+            long1.Amount();
+            Console.WriteLine($"Formula = {long1.Formula(14, 16)}");
+            Console.WriteLine();
+            Console.WriteLine($"Money minus = {long1.minus()}");
+            Console.WriteLine($"Money division = {long1.Mul()}");
+            Console.WriteLine($"Money Sum = {long1.plus()}");
+
+            Console.ReadKey();
+        }
+    }
+}
