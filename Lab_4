@@ -1,0 +1,83 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace kpiap4lab
+{
+    class Program
+    {
+        static void Task1()
+        {
+            Console.Write("Введите число элементов в массиве - ");
+            int n = Convert.ToInt32(Console.ReadLine());
+            int[] array = new int[n];
+
+            for (int i = 0; i < array.Length; ++i)
+            {
+                array[i] = int.Parse(Console.ReadLine());
+            }
+
+            Console.Write("Введите число n - ");
+            int digit = Convert.ToInt32(Console.ReadLine());
+
+            int sum = 0;
+            int odd = 0;
+            int temp = 0;
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (array[i] % 2 == 0)
+                    sum += array[i];
+
+                if (array[i] % 2 != 0)
+                    odd += array[i];
+
+                if (array[i] % digit == 0)
+                    temp += array[i];
+            }
+            Console.WriteLine("Сумма четных элементов - " + sum);
+            Console.WriteLine("Сумма нечетных элементов - " + odd);
+            Console.WriteLine("Сумма элементов кратных n - " + temp);
+
+        }
+        static void Task2()
+        {
+            int temp = 1;
+            //Console.Write("Введите число элементов в массиве - ");
+            //int n = Convert.ToInt32(Console.ReadLine());
+            //int[] array = new int[n];
+            //for (int i = 0; i < array.Length; ++i)
+            //{
+            //    array[i] = int.Parse(Console.ReadLine());
+            //}
+
+            int[] n = { 2, 0, 5, 5, 0 };
+
+            for (int i = 0; i < n.Length; ++i)
+            {
+                Array.IndexOf(n, 0);
+                {
+                    //++i;
+                    for (; i < n.Length; ++i)
+                    {
+                        if (n[i] == 0)
+                        {
+                            break;
+                        }
+                        temp *= n[i];
+                    }
+                }
+            }
+            Console.WriteLine("Ответ: " + temp);
+        }
+            static void Main(string[] args)
+            {
+                //Task1();
+                Task2();
+
+                Console.ReadKey();
+            }
+        }
+    }
