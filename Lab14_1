@@ -1,0 +1,29 @@
+using System;
+
+
+namespace kpiap14part1
+{
+
+    class Program
+    {
+        delegate double Flex(double x);
+        static void Raschet(Flex a)
+        {
+            int count = 1;
+            for (int i = -3; i < 10; i += 6)
+                Console.WriteLine($" Значение: {count++}\t Ответ: {a(i)}");
+        }
+        
+        static void Main(string[] args)
+        {
+
+            Flex a = Math.Tan;
+            Raschet(a);
+            Console.WriteLine("-------------");
+            a = Math.Sin;
+            Raschet(a);
+
+            Console.ReadLine();
+        }
+    }
+}
