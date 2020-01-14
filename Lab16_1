@@ -1,83 +1,49 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization.Formatters.Soap;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace GlebFlex_16_1
+namespace lab10kpiap1part
 {
     [Serializable]
     public class Program
     {
         [Serializable]
-        public class Library
+        public class Mathflex
         {
-            public string name;
-            //public List<book> books = new List<book>();
+            public double e;
+            public double y;
+            public double z;
+            public double x;
 
-            public Library(string Name)
+            public Mathflex() { }
+            public Mathflex(double E, double Y, double Z, double X)
             {
-                this.name = Name;
+                e = E;
+                y = Y;
+                z = Z;
+                x = X;
             }
-            public Library()
+            double Min()
             {
+                double flex = Math.Pow(e, x) + y;
+                double chill = y - z;
+                return Math.Min(flex, chill);
             }
-
-            public void print_books()
+            double Max()
             {
-                //books.ForEach((x) => { Console.WriteLine($"{x.name} {x.year} {x.category}"); });
-            }
-
-            public void AddBook(string Name, int Year, string Category)
-            {
-                //  books.Add(new book(Name, Year, Category));
-            }
-
-            public void RemoveBook(string Name, int Year, string Category)
-            {
-                // books.Remove(new book(Name, Year, Category));
-            }
-
-            public void Get_book(int num)
-            {
-                //var x = books[num];
-                //Console.WriteLine($"{x.name} {x.year} {x.category}");
+                double flex = Math.Pow(e, x);
+                double chill = y;
+                return Math.Max(flex, chill);
             }
 
-            public void Search_By_Year(int Year)
+            public double Calc()
             {
-                // //books.ForEach((x) => {
-                //    if (x.year == Year)
-                //    {
-                //        Console.WriteLine($"{x.name} {x.year} {x.category}");
-                //    }
-                //});
+                return Min() / Max();
             }
 
-            public void Search_By_Name(string Name)
-            {
-                //books.ForEach((x) => {
-                //    if (x.name == Name)
-                //    {
-                //        Console.WriteLine($"{x.name} {x.year} {x.category}");
-                //    }
-                //});
-            }
-
-            public void Search_By_Category(string Category)
-            {
-                //books.ForEach((x) => {
-                //    if (x.category == Category)
-                //    {
-                //        Console.WriteLine($"{x.name} {x.year} {x.category}");
-                //    }
-                //});
-            }
 
             public void Serialize()
             {
@@ -107,7 +73,7 @@ namespace GlebFlex_16_1
                 }
 
                 FileStream xmlF = new FileStream("XmlFile.xml", FileMode.Create);
-                XmlSerializer Flexformatter = new XmlSerializer(typeof(Library));
+                XmlSerializer Flexformatter = new XmlSerializer(typeof(Mathflex));
                 try
                 {
                     Flexformatter.Serialize(xmlF, this);
@@ -120,48 +86,13 @@ namespace GlebFlex_16_1
 
                 Console.WriteLine("Done");
             }
-
-        }
-        [Serializable]
-        public class book : IEquatable<book>
-        {
-            public string name;
-            public int year;
-            public string category;
-
-            public book(string Name, int Year, string Category)
-            {
-                this.name = Name;
-                this.year = Year;
-                this.category = Category;
-            }
-            public static implicit operator string(book p)
-            {
-                return p.name;
-            }
-            public bool Equals(book other)
-            {
-                return name.Equals(other.name);
-            }
         }
         static void Main(string[] args)
         {
-
-            var lib = new Library("Flex");
-            lib.AddBook("Flex", 1212, "Action");
-            lib.AddBook("Fler", 1212, "12");
-            lib.AddBook("Flea", 1212, "Action");
-            lib.print_books();
-            Console.WriteLine();
-            lib.print_books();
-            Console.WriteLine();
-            lib.Get_book(1);
-            Console.WriteLine("Test");
-            lib.Search_By_Name("Flex");
-            lib.Search_By_Category("12");
-            lib.Serialize();
-            Console.ReadKey();
-
+            var flex = new Mathflex(2, 5, 4, 3);
+            Console.WriteLine(flex.Calc());
+            flex.Serialize();
+            Console.ReadLine();
         }
     }
 }
