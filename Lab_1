@@ -1,0 +1,51 @@
+    using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace kpiap1laba
+{
+    class Program
+    {
+        static void Task1()
+        {
+            double x = -15.246;
+            double y = 4.642 * Math.Pow(10, -2);
+            double z = 20.001 * Math.Pow(10, 2);
+
+            double flex = Math.Log(Math.Pow(y, -(Math.Sqrt(Math.Abs(x)))));
+            double chill = (x - (y / 2));
+            double kring = (Math.Pow(Math.Sin(Math.Atan(z)), 2));
+
+            double temp = flex * chill + kring;
+
+            Console.WriteLine(temp);
+            Console.ReadKey();
+        }
+        static bool Task2(int a)
+        {
+            double temp2 = 0;
+            for (int i = a; i > 0; i = i / 10)
+            {
+                temp2 = temp2 + i % 10;
+            }
+            temp2 = Math.Pow(temp2, 3);
+            if (Math.Pow(a, 2) == temp2)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        static void Main(string[] args)
+        {
+
+            Task1();
+            Console.WriteLine(Task2(123));
+            Console.ReadKey();
+
+
+        }
+    }
+}
