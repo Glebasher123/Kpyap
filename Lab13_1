@@ -1,0 +1,95 @@
+using System;
+
+namespace kpiap13_1
+{
+    class Program
+    {
+        class Function
+        {
+            double a;
+            double b;
+            public Function(double A, double B)
+            {
+                a = A;
+                b = B;
+            }
+
+            public double FirstCulc()
+            {
+                
+                Console.Write("Введите угол: ");
+                double cor = Convert.ToDouble(Console.ReadLine());
+
+                double res = (0.5 * a * b) * Math.Sin(cor);
+
+                if (res < 0)
+                {
+                    throw new Exception("Площадь не может быть меньше 0");
+                }
+
+                return res;
+            }
+
+        }
+
+        class Task2
+        {
+            public void Task ()
+            {
+                Console.Write("Введите размерность масива: ");
+                int n = Convert.ToInt32(Console.ReadLine());
+                int[] mass = new int[n + 1];
+                Console.WriteLine("Массив - ");
+
+                Random rnd = new Random();
+                for (int i = 0; i < n; i++)
+                    {
+                       mass[i] = rnd.Next(0, 10);
+                       Console.Write(mass[i] + " ");
+                    }
+                Console.WriteLine();
+
+                Console.Write("Введите номер элемента после которого необходимо добавить 0: ");
+                int k = Convert.ToInt32(Console.ReadLine());
+                int[] buff = new int[n - k];
+                int iBuff = 0;
+                for (int i = k; i < n; i++)
+                {
+                    buff[iBuff] = mass[i];
+                    iBuff++;
+                }
+                n += 1;
+                mass[k] = 0;
+                iBuff = 0;
+                for (int i = k + 1; i < n; i++)
+                {
+                    mass[i] = buff[iBuff];
+                    iBuff++;
+                }
+                Console.WriteLine("Преобразованный массив");
+                for (int i = 0; i < n; i++)
+                {
+                    Console.Write(mass[i] + " ");
+                }
+
+            }
+        }
+        static void Main(string[] args)
+        {
+            try
+            {
+                Function func = new Function(5,5);
+                Console.WriteLine($"Площадь равна = {func.FirstCulc()}");
+
+                Task2 task2 = new Task2();
+                task2.Task();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + "\n" + ex.TargetSite + "\n" + ex.Source + "\n" + ex.StackTrace);
+            }
+            Console.ReadKey();
+        }
+    }
+}
