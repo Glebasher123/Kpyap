@@ -1,0 +1,169 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Gleb17_1
+{
+    class Cset : IEnumerable
+    {
+        List<int> array = new List<int>();
+
+        public int this[int index]
+        {
+            get
+            {
+                return array[index];
+            }
+            set
+            {
+                if (!array.Contains(value))
+                {
+                    try
+                    {
+                        array[index] = value;
+                    }
+                    catch (ArgumentOutOfRangeException e)
+                    {
+                        Console.WriteLine(e.Message);
+                        throw new ArgumentOutOfRangeException("Out of Range!");
+                    }
+                }
+                else
+                {
+                    throw new ArgumentException("Duplicate element");
+                }
+            }
+
+        }
+
+        public Cset()
+        {
+        }
+
+        public int Add(int Value)
+        {
+            if (array.Count > 0)
+            {
+                if (!array.Contains(Value))
+                {
+                    this.array.Add(Value);
+                }
+                else
+                {
+                    throw new ArgumentException("Duplicated element");
+                }
+            }
+            else
+            {
+                this.array.Add(Value);
+            }
+            return Value;
+        }
+
+        public void AddRange(Cset Flex)
+        {
+            foreach (var Value in Flex.array)
+            {
+                this.Add(Value);
+            }
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return array.GetEnumerator();
+        }
+
+        public static Cset operator +(Cset index1, int item)
+        {
+            return new Cset { index1.Add(item) };
+        }
+
+        public static bool operator &(Cset index1, Cset index2)
+        {
+            foreach (var item in index1)
+            {
+                foreach (var sitem in index2)
+                {
+                    if (item == sitem)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public static bool operator <=(Cset index1, Cset index2)
+        {
+            foreach (var item in index1)
+            {
+                foreach (var sitem in index2)
+                {
+                    if (item != sitem|| (int)item > (int)sitem)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        public static bool operator >=(Cset index1, Cset index2)
+        {
+            foreach (var item in index1)
+            {
+                foreach (var sitem in index2)
+                {
+                    if (item == sitem || (int)item < (int)sitem)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+
+        public void RemoveItem(int Value)
+        {
+            this.array.Remove(Value);
+        }
+
+        public void RemoveAt(int Value)
+        {
+            this.array.RemoveAt(Value);
+        }
+
+        public void ShowSet()
+        {
+            foreach (var item in this.array)
+            {
+                Console.WriteLine(item + " ");
+            }
+        }
+        ~Cset()
+        {
+            Console.WriteLine("Beep!");
+        }
+    }
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Cset Flex = new Cset();
+            Flex.Add(13);
+            Flex.Add(16);
+            Flex.ShowSet();
+
+            Cset f = Flex + 15;
+            f.ShowSet();
+            Console.WriteLine(f & Flex);
+            Console.WriteLine(f <= Flex);
+            Console.WriteLine(f >= Flex);
+            Console.ReadKey();
+        }
+    }
+}
