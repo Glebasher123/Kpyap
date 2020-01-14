@@ -1,0 +1,24 @@
+using System;
+using ClassLibrary1;
+
+namespace kpiap18
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            try
+            {
+                Class1 treangle = new Class1(3, 4, 5);
+                treangle.Check();
+                Console.WriteLine(treangle.Ploshad());
+                Console.WriteLine(treangle.Perimetr());
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            Console.ReadLine();
+        }
+    }
+}
