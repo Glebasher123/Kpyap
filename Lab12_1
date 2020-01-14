@@ -1,0 +1,199 @@
+using System;
+
+
+namespace Kpyap11
+{
+    class Program
+    {
+        class X
+        {
+            protected int X1;
+            protected int X2;
+
+            public X(int x1, int x2)
+            {
+                X1 = x1;
+                X2 = x2;
+            }
+        }
+
+        class Y : X
+        {
+            int y;
+
+            public Y(int x1, int x2, int Y) : base(x1, x2)
+            {
+                y = Y;
+            }
+
+            public double Calc()
+            {
+                double sum = (X1 + X2) / y;
+                return sum;
+            }
+
+        }
+
+
+        public abstract class Figur
+        {
+            public abstract void output();
+            public abstract string square_size();
+
+            public abstract string raschet_volume();
+        }
+        interface Figure
+        {
+            string square_size();
+            string raschet_volume();
+        }
+        interface FigureOutput
+        {
+            void output();
+        }
+
+        class Point : Figur, Figure, FigureOutput
+        {
+            int x;
+            int y;
+
+            public Point(int x, int y)
+            {
+                this.x = x;
+                this.y = y;
+            }
+            public override void output()
+            {
+                Console.WriteLine($"Точка {square_size()} и {raschet_volume()}\n");
+            }
+            public override string square_size()
+            {
+                string a = "не имеет площади";
+                return a.ToString();
+            }
+
+            public override string raschet_volume()
+            {
+                string a = "не имеет объема";
+                return a;
+            }
+
+        }
+
+        class Line : Figur, Figure, FigureOutput
+        {
+            int x1;
+            int x2;
+            int y1;
+            int y2;
+
+            public Line(int x1, int x2, int y1, int y2)
+            {
+                this.x1 = x1;
+                this.x2 = x2;
+                this.y1 = y1;
+                this.y2 = y2;
+            }
+            public override void output()
+            {
+                Console.WriteLine($"Длина линии = {square_size()} и {raschet_volume()}\n");
+            }
+
+            public override string square_size()
+            {
+                double x = Math.Pow(x2 - x1, 2);
+                double y = Math.Pow(y2 - y1, 2);
+                return Math.Sqrt(x + y).ToString();
+            }
+
+            public override string raschet_volume()
+            {
+                string a = "не имеет объема";
+                return a;
+            }
+        }
+
+
+        class Circle : Figur, Figure, FigureOutput
+        {
+            private double Radius;
+            public Circle(int r)
+            {
+                Radius = r;
+            }
+            public override void output()
+            {
+                Console.WriteLine($"Площадь круга = {square_size()} и {raschet_volume()}\n");
+            }
+            public override string square_size()
+            {
+                double d = Math.PI * Math.Pow(Radius, 2);
+                return d.ToString();
+            }
+
+            public override string raschet_volume()
+            {
+                string a = "не имеет объема";
+                return a;
+            }
+        }
+
+        class Cilindr : Figur, Figure, FigureOutput, IEquatable<double>
+        {
+            double radius;
+            double height;
+
+            public Cilindr(int _radius, int _height)
+            {
+                radius = _radius;
+                height = _height;
+            }
+
+            public override void output()
+            {
+                Console.WriteLine($"Площадь цилиндра = {square_size()} \nОбъем цилиндра = {raschet_volume()}");
+
+            }
+            public override string square_size()
+            {
+                double d = Math.PI * Math.Pow(radius, 2);
+                return d.ToString();
+            }
+
+            public override string raschet_volume()
+            {
+                double d = Math.PI * Math.Pow(radius, 2) * height;
+                return d.ToString();
+            }
+
+            public bool Equals(double other)
+            {
+                return height.Equals(other);
+            }
+        }
+
+
+        static void Main(string[] args)
+        {
+            Y y1 = new Y(10, 5, 2);
+            Console.WriteLine($"Уравнение равно - {y1.Calc()}\n");
+
+            Point tochka = new Point(10, 20);
+            tochka.output();
+
+            Line line = new Line(2, 4, 4, 1);
+            line.output();
+
+            Circle circle = new Circle(10);
+            circle.output();
+
+            Cilindr cilindr = new Cilindr(10, 10);
+            cilindr.output();
+            Console.WriteLine(cilindr.Equals(50));
+
+
+
+            Console.ReadKey();
+        }
+    }
+}
