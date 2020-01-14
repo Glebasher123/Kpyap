@@ -1,0 +1,195 @@
+using System;
+
+
+namespace KPi_12._2.lab
+{
+    class Apartment : IComparable, ICloneable
+    {
+        string Address { get; set; }
+        int Meter { get; set; }
+        int CountRoom { get; set; }
+        public object Clone()
+        {
+            return new Apartment(this.Address = Address, this.Meter = Meter, this.CountRoom = CountRoom);
+        }
+
+        public Apartment(string Address = "dfgdsf", int Meter = 123, int CountRoom = 3)
+        {
+            this.Address = Address;
+            this.Meter = Meter;
+            this.CountRoom = CountRoom;
+        }
+
+        public void Print(Apartment[] apartment)
+        {
+            for (int i = 0; i < apartment.Length; i++)
+            {
+                Console.WriteLine($"Адрес {apartment[i].Address}\tКоличество комнат {apartment[i].CountRoom}\tМетров {apartment[i].Meter}");
+            }
+        }
+        public int CompareTo(object obj)
+        {
+            Apartment apartment2 = new Apartment("hgfdfgd", 342, 3);
+            if (CountRoom > apartment2.CountRoom)
+                return 1;
+            if (CountRoom < apartment2.CountRoom)
+                return -1;
+            else
+                return 0;
+        }
+        public void SortMinCountRoom(Apartment[] apartment)
+        {
+            Apartment Temp = new Apartment();
+
+            for (int i = 0; i < apartment.Length; i++)
+            {
+                for (int j = 0; j < apartment.Length - 1; j++)
+                {
+                    if (apartment[j].CountRoom > apartment[j + 1].CountRoom)
+                    {
+                        Temp = apartment[j];
+                        apartment[j] = apartment[j + 1];
+                        apartment[j + 1] = Temp;
+                    }
+                }
+            }
+            Print(apartment);
+        }
+
+        public void SortMaxCountRoom(Apartment[] apartment)
+        {
+            Apartment Temp = new Apartment();
+
+            for (int i = 0; i < apartment.Length; i++)
+            {
+                for (int j = 0; j < apartment.Length - 1; j++)
+                {
+                    if (apartment[j].CountRoom < apartment[j + 1].CountRoom)
+                    {
+                        Temp = apartment[j];
+                        apartment[j] = apartment[j + 1];
+                        apartment[j + 1] = Temp;
+                    }
+                }
+            }
+            Print(apartment);
+        }
+
+        public void SortMinMeter(Apartment[] apartment)
+        {
+            Apartment Temp = new Apartment();
+
+            for (int i = 0; i < apartment.Length; i++)
+            {
+                for (int j = 0; j < apartment.Length - 1; j++)
+                {
+                    if (apartment[j].Meter > apartment[j + 1].Meter)
+                    {
+                        Temp = apartment[j];
+                        apartment[j] = apartment[j + 1];
+                        apartment[j + 1] = Temp;
+                    }
+                }
+            }
+            Print(apartment);
+        }
+
+        public void SortMaxMeter(Apartment[] apartment)
+        {
+            Apartment Temp = new Apartment();
+
+            for (int i = 0; i < apartment.Length; i++)
+            {
+                for (int j = 0; j < apartment.Length - 1; j++)
+                {
+                    if (apartment[j].Meter < apartment[j + 1].Meter)
+                    {
+                        Temp = apartment[j];
+                        apartment[j] = apartment[j + 1];
+                        apartment[j + 1] = Temp;
+                    }
+                }
+            }
+            Print(apartment);
+        }
+
+        public void Swich(Apartment[] apartment, int n)
+        {
+            switch (n)
+            {
+                case 1:
+                    SortMaxCountRoom(apartment);
+                    break;
+                case 2:
+                    SortMinCountRoom(apartment);
+                    break;
+                case 3:
+                    SortMaxMeter(apartment);
+                    break;
+                case 4:
+                    SortMinMeter(apartment);
+                    break;
+                case 5:
+                    PrintCopareTo(apartment);
+                    break;
+                case 6:
+                    PrintCopy(apartment);
+                    break;
+                default:
+                    Console.WriteLine("данного метода сортировки нет");
+                    break;
+            }
+        }
+        public void PrintCopareTo(Apartment[] apartment)
+        {
+            for (int i = 0; i < apartment.Length; i++)
+            {
+                Console.WriteLine($"Адрес {apartment[i].Address}\tКоличество комнат {apartment[i].CountRoom} - CompareTo ( {apartment[0].CompareTo(apartment[i])} )\tМетров {apartment[i].Meter}");
+            }
+        }
+
+        public void PrintCopy(Apartment[] apartment)
+        {
+            Console.WriteLine("Введите какую квартиру хотите скопировать: ");
+            int m = Convert.ToInt32(Console.ReadLine());
+            Apartment p2 = (Apartment)apartment[m-1].Clone();
+
+            Console.WriteLine($"Адрес {p2.Address}\tКоличество комнат {p2.CountRoom}\tМетров {p2.Meter}");
+        }
+    }
+
+    class Program
+    {
+        static void Input(Apartment[] apartment)
+        {
+            for (int i = 0; i < apartment.Length; i++)
+            {
+                Console.WriteLine($"Заполните данные {i+1}-й квартиры");
+                Console.Write("Введите адрес: ");
+                string adress = Console.ReadLine();
+                Console.Write("Введите метраж квартиры: ");
+                int meter = Convert.ToInt32(Console.ReadLine());
+                Console.Write("Введите количество комнат: ");
+                int countroom = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine();
+
+                apartment[i] = new Apartment(adress, meter, countroom);
+            }
+        }
+ 
+        static void Main(string[] args)
+        {
+            Console.Write("Введите количество квартир: ");
+            int CountApartment = Convert.ToInt32(Console.ReadLine());
+            Apartment[] apartment = new Apartment[CountApartment];
+            Input(apartment);
+
+            Console.WriteLine("\nВыберите по каким критериям отсортировать квартиры:");
+            Console.WriteLine("1 - Сортировать по количеству (max) комнат\n2 - Сортировать по количеству (min) комнат\n3 - Сортировать по количеству метров (max)\n4 - Сортировать по количеству метров (min)\n5 - вывод CopareTo\n6 - Копирование данных квартиры\n");
+            int n = Convert.ToInt32(Console.ReadLine());
+            apartment[0].Swich(apartment, n);
+
+            Console.ReadLine();
+        }
+    }
+}
