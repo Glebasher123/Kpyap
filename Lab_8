@@ -1,0 +1,61 @@
+using System;
+using System.IO;
+
+namespace lab8kpiap
+{
+    class Program
+    {
+        static void Iseven(StreamWriter sw)
+        {
+            int counter = 0;
+
+            int A = -6;
+            int B = 300;
+            for (; A <= B; A++)
+            {
+                if (A % 2 == 0)
+                {
+                    sw.WriteLine(A + ", ");
+
+                    int temp2 = 0;
+                    int temp = A;
+                    if (temp > 0)
+                    {
+                        for (; temp > 0; temp /= 10)
+                        {
+                            temp2 += temp % 10;
+                        }
+                        counter += temp2;
+                    }
+                    else
+                    {
+                        counter += temp;
+                    }
+                    //Console.WriteLine(counter);
+
+                }
+
+            }
+            Console.WriteLine("В файл записано чисел - " + counter);
+        }
+
+        static void Main(string[] args)
+        {
+            string writePath = @"C:\Users\vysta\Desktop\lab8\laba.txt";
+            try
+            {
+                using (var sw = new StreamWriter(writePath))
+                {
+                    Iseven(sw);
+                }
+                Console.WriteLine("Запись прошла успешно!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            Console.ReadKey();
+        }
+    }
+}
