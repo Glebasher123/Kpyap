@@ -1,0 +1,715 @@
+using System;
+
+namespace Lab19
+{
+    public interface ISpell
+    {
+        int Bottle(); 
+        int BottleDeath(); 
+        int Viper(); 
+        int OrbVasiliska(); 
+        int Posoh();
+
+    }
+    public interface IMagic
+    {
+        double HeallSpell();
+        double Armor();
+        double Antitoxin();
+        double Oshivit();
+        double Otomri();
+
+    }
+    class Hero : IComparable // наследуем интерфейс для проверки персов по опыту
+    {
+        private string name;
+        protected int ID;
+        protected string Rase;
+        protected string Gender;
+        private int age;
+        private int health;
+        private int exp;
+        private string status;
+        private bool moving;
+        private bool speak1;
+        public int MaxMana;
+        public int ActMana;
+        public int Artefact;
+
+
+        public string Name { get => name; set => name = value; }
+        public int Age { get => age; set => age = value; }
+        public bool Speak1 { get => speak1; set => speak1 = value; }
+        public int Health { get => health; set => health = value; }
+        public int Exp { get => exp; set => exp = value; }
+        public string Status { get => status; set => status = value; }
+        public bool Moving { get => moving; set => moving = value; }
+
+        public int CompareTo(object obj) //сравнение опыта персонажей
+        {
+            Hero A = (Hero)obj;
+            if (A.Exp > Exp)
+            {
+                Console.WriteLine("У второго персонажа больше опыта чем у первого");
+                return 0;
+            }
+            else
+            {
+                if (A.Exp == Exp)
+                {
+                    Console.WriteLine("Количество опыта у обеих персонажей одинаковы");
+                }
+                else
+                {
+                    Console.WriteLine("У первого персонажа больше опыта,чем у второго");
+                }
+                return 0;
+            }
+        }
+
+
+        public Hero(int ID, string Name, string Rase, string Gender, int MaxMana, int ActMana) // конструктор персонажа
+        {
+            this.ID = ID;
+            this.Name = Name;
+            this.Rase = Rase;
+            this.Gender = Gender;
+            this.MaxMana = MaxMana;
+            this.ActMana = ActMana;
+
+        }
+    }
+
+    class Inventory
+    {
+        public int qqq;
+        public int posoh;
+        public int bottleDeath;
+        public int bottleShopa;
+        public int viper;
+        public int glasVasiliska;
+
+
+        public Inventory()
+        {
+            Random rand = new Random();
+            qqq = rand.Next(0, 2);
+            posoh = rand.Next(0, 2);
+            bottleDeath = rand.Next(0, 2);
+            bottleShopa = rand.Next(0, 2);
+            viper = rand.Next(0, 2);
+            glasVasiliska = rand.Next(0, 2);
+        }
+        public void Info() //вывод инвентаря
+        {
+            Console.Write("Battle Fury" + qqq);
+            Console.Write("Orchid" + posoh);
+            Console.Write("Desolator" + bottleDeath);
+            Console.Write("Crystalis" + bottleShopa);
+            Console.Write("Monkey King Bar" + viper);
+            Console.Write("Arcane" + glasVasiliska);
+        }
+        public void Podnatie() //рандомим артефакт
+        {
+            Random rand = new Random();
+            Console.WriteLine("Вы подняли артефакт ");
+            switch (rand.Next(1, 6))
+            {
+                case 1: Console.Write("Battle Fury\n"); qqq++; break;
+                case 2: Console.Write("Orchid\n"); posoh++; break;
+                case 3: Console.Write("Desolator\n"); bottleDeath++; break;
+                case 4: Console.Write("Crystalis\n"); bottleShopa++; break;
+                case 5: Console.Write("Monkey King Bar\n"); viper++; break;
+                case 6: Console.Write("Arcane\n"); glasVasiliska++; break;
+            }
+        }
+        public void Vibrosit() //выбор артифакта
+        {
+            int n = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Вы выбросили артефакт");
+            switch (n)
+            {
+                case 1: Console.Write("Battle Fury\n"); qqq++; break;
+                case 2: Console.Write("Orchid\n"); posoh++; break;
+                case 3: Console.Write("Desolator\n"); bottleDeath++; break;
+                case 4: Console.Write("Crystalis\n"); bottleShopa++; break;
+                case 5: Console.Write("Monkey King Bar\n"); viper++; break;
+                case 6: Console.Write("Arcane\n"); glasVasiliska++; break;
+            }
+        }
+        public void Peredat() //передача артифакта
+        {
+            Random rand = new Random();
+            Console.WriteLine("Вы передали артефакт");
+            switch (rand.Next(1, 6))
+            {
+                case 1: Console.Write("Battle Fury\n"); qqq++; break;
+                case 2: Console.Write("Orchid\n"); posoh++; break;
+                case 3: Console.Write("Desolator\n"); bottleDeath++; break;
+                case 4: Console.Write("Crystalis\n"); bottleShopa++; break;
+                case 5: Console.Write("Monkey King Bar\n"); viper++; break;
+                case 6: Console.Write("Arcane\n"); glasVasiliska++; break;
+            }
+        }
+        public void Ispolsovat()//использование артифакта
+        {
+            Random rand = new Random();
+            Console.WriteLine("Вы использовали артефакт");
+            switch (rand.Next(1, 6))
+            {
+                case 1: Console.Write("Battle Fury\n"); qqq++; break;
+                case 2: Console.Write("Orchid\n"); posoh++; break;
+                case 3: Console.Write("Desolator\n"); bottleDeath++; break;
+                case 4: Console.Write("Crystalis\n"); bottleShopa++; break;
+                case 5: Console.Write("Monkey King Bar\n"); viper++; break;
+                case 6: Console.Write("Arcane\n"); glasVasiliska++; break;
+            }
+        }
+    }
+
+    abstract class Artefact : Inventory
+    {
+
+        protected string Name;
+        protected int ID;
+        protected string Rase;
+        protected string Gender;
+        protected int Health;
+        public int MaxMana;
+        public int ActMana;
+        public int Artefact1;
+        int a;
+       
+
+        public Artefact(int ID, string Name, string Rase, string Gender, int MaxMana, int ActMana, int Artefact1, int a)//конструктор класса артефакт
+        {
+            this.ID = ID;
+            this.Name = Name;
+            this.Rase = Rase;
+            this.Gender = Gender;
+            this.MaxMana = MaxMana;
+            this.ActMana = ActMana;
+            this.Artefact1 = Artefact1;
+            this.a = a;
+
+        }
+
+        public void Bottle()
+        {
+
+            if (Health < 50 && bottleShopa > 0)
+            {
+                Console.WriteLine("Лечение персонажа с помощью целебной бутылки\n 1-10,2-25,3-50");
+                switch (a)
+                {
+                    case 1:
+                        Console.WriteLine("Вылечен 10");
+                        break;
+                    case 2:
+                        Console.WriteLine("Вылечен на 25");
+                        break;
+                    case 3:
+                        Console.WriteLine("Вылечен на 50");
+                        break;
+                    default:
+                        Console.WriteLine("Персонаж в гробу,ты даун,что наделал");
+                        break;
+                }
+            }
+
+
+
+        }
+        public void BottleDeath()
+        {
+
+            if (ActMana < 90 && bottleDeath > 0)
+            {
+                Console.WriteLine("Хотите ли вы увеличить ману?\n 1-10,2-25,3-50");
+                switch (a)
+                {
+                    case 1:
+                        Console.WriteLine("мана увеличена на 10");
+                        break;
+                    case 2:
+                        Console.WriteLine("мана увеличена на 25");
+                        break;
+                    case 3:
+                        Console.WriteLine("мана увеличена на 50");
+                        break;
+                    default:
+                        Console.WriteLine("Персонаж в гробу,ты даун,что наделал");
+                        break;
+                }
+            }
+        }
+        public void Posoh()
+        {
+            if (posoh > 0)
+            {
+                Console.WriteLine("Хотите ли вы использовать посох?\n 1-да,2-нет");
+                switch (a)
+                {
+                    case 1:
+                        Console.WriteLine("Вы использовали посох,пизда Зевсу");
+                        Health = Health - Artefact1;
+                        Console.WriteLine("Здоровье персонажа =" + Health);
+                        break;
+                    case 2:
+                        Console.WriteLine("Вы не использовали посох");
+                        Console.WriteLine("Здоровье персонажа =" + Health);
+                        break;
+                    default:
+                        Console.WriteLine("Персонаж в гробу,ты даун,что наделал");
+                        break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Нет посохов");
+            }
+        }
+        public void Qqq()
+        {
+            if (Health < 10 && qqq > 0)
+            {
+                Console.WriteLine("Хотите ли вылечить отравление персонажа?\n 1-da,2-net");
+                switch (a)
+                {
+                    case 1:
+                        Console.WriteLine("Персонаж здоров");
+                        break;
+                    case 2:
+                        Console.WriteLine("Персонаж отравлен");
+                        break;
+                    default:
+                        Console.WriteLine("Персонаж в гробу,ты даун,что наделал");
+                        break;
+                }
+            }
+
+        }
+        public void Viper()
+        {
+            if (viper > 0)
+            {
+                Console.WriteLine("Хотите ли вы использовать грилзы?\n 1-да,2-нет");
+                switch (a)
+                {
+                    case 1:
+                        Console.WriteLine("Вы использовали грилзы,теперь вы рэпер");
+                        Health = Health - Artefact1;
+                        Console.WriteLine("Здоровье персонажа =" + Health);
+                        break;
+                    case 2:
+                        Console.WriteLine("Вы не использовали грилзы");
+                        Console.WriteLine("Здоровье персонажа =" + Health);
+                        break;
+                    default:
+                        Console.WriteLine("Персонаж в гробу,ты даун,что наделал");
+                        break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("У вас их нет");
+            }
+        }
+        public void GlasVasiliska()
+        {
+            if (glasVasiliska > 0)
+            {
+                Console.WriteLine("Хотите ли вы использовать глаз?\n 1-да,2-нет");
+                switch (a)
+                {
+                    case 1:
+                        Console.WriteLine("Вы использовали глаз,персонаж парализован");
+                        break;
+                    case 2:
+                        Console.WriteLine("Вы не использовали глаз");
+                        break;
+                    default:
+                        Console.WriteLine("Персонаж в гробу,ты даун,что наделал");
+                        break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("У вас их нет");
+            }
+        }
+    }
+    abstract class Spell : Hero//закллинание
+    {
+        public Spell(int ID, string Name, string Rase, string Gender, int MaxMana, int ActMana) : base(ID, Name, Rase, Gender, MaxMana, ActMana)//конструктор с параметрами и наследование конструктора персонажа
+        {
+            this.ID = ID;
+            this.Name = Name;
+            this.Rase = Rase;
+            this.Gender = Gender;
+            this.MaxMana = MaxMana;
+            this.ActMana = ActMana;
+
+        }
+    }
+    class HeallSpell : Spell//добавить здоровье
+    {
+        int Spell;
+        public HeallSpell(int ID, string Name, string Rase, string Gender, int MaxMana, int ActMana, int Spell) : base(ID, Name, Rase, Gender, MaxMana, ActMana)//конструктор с параметрами и наследование конструктора персонажа
+
+        {
+            this.Spell = Spell;
+
+        }
+        protected void AddHP()
+        {
+            Spell = Health + 100;
+        }
+    }
+    class Heall : Spell//вылечить
+    {
+        int heall;
+        int a;
+        public Heall(int ID, string Name, string Rase, string Gender, int MaxMana, int ActMana, int Spelll, int a) : base(ID, Name, Rase, Gender, MaxMana, ActMana)//конструктор с параметрами и наследование конструктора персонажа
+        {
+            this.heall = Spelll;
+            this.a = a;
+            this.MaxMana = MaxMana;
+            this.ActMana = ActMana;
+
+        }
+        protected void Heall2L()//лечение персонажа
+        {
+            if (ActMana >= Health)
+            {
+
+
+                if (Health < 10)
+                {
+                    Console.WriteLine("Хотите ли вылечить персонажа?\n 1-da,2-net");
+                    switch (a)
+                    {
+                        case 1:
+                            Console.WriteLine("Персонаж здоров");
+                            break;
+                        case 2:
+                            Console.WriteLine("Персонаж всё ещё болен");
+                            break;
+                        default:
+                            Console.WriteLine("Персонаж в гробу,ты даун,что наделал");
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Недостаточно маны");
+            }
+        }
+    }
+    class Antitoxin : Spell //противоядие
+    {
+        int Otrav;
+        int a;
+        public Antitoxin(int ID, string Name, string Rase, string Gender, int MaxMana, int ActMana, int a, int Otrav) : base(ID, Name, Rase, Gender, MaxMana, ActMana)//конструктор с параметрами и наследование конструктора персонажа
+        {
+            this.Otrav = Otrav;
+            this.a = a;
+            this.MaxMana = MaxMana;
+            this.ActMana = ActMana;
+
+        }
+        protected void Protivoid2HL()//лечение персонажа
+        {
+            if (ActMana >= 30)
+            {
+                if (Health < 10)
+                {
+                    Console.WriteLine("Хотите ли вылечить отравление персонажа?\n 1-da,2-net");
+                    switch (a)
+                    {
+                        case 1:
+                            Console.WriteLine("Персонаж вколол спиды и воскрес");
+                            break;
+                        case 2:
+                            Console.WriteLine("ёбаный мутант,нихуя не помогло ");
+                            break;
+                        default:
+                            Console.WriteLine("Персонаж в гробу,ты даун,что наделал");
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Недостаточно маны");
+            }
+        }
+    }
+    class Oshivit : Spell//оживление 
+    {
+        int Respawn;
+        int a;
+        public Oshivit(int ID, string Name, string Rase, string Gender, int MaxMana, int ActMana, int a, int Respawn) : base(ID, Name, Rase, Gender, MaxMana, ActMana)//конструктор с параметрами и наследование конструктора персонажа
+        {
+            this.Respawn = Respawn;
+            this.a = a;
+            this.MaxMana = MaxMana;
+            this.ActMana = ActMana;
+
+        }
+        protected void Oshivlenie2HL()//оживление персонажа
+        {
+            if (ActMana >= 150)
+            {
+                if (Health == 0)
+
+                {
+                    Console.WriteLine("Хотите ли оживить персонажа?\n 1-da,2-net");
+                    switch (a)
+                    {
+                        case 1:
+                            Console.WriteLine("Персонаж Христос Воскрес");
+                            break;
+                        case 2:
+                            Console.WriteLine("Персонаж всё ещё  мёртв ");
+                            break;
+                        default:
+                            Console.WriteLine("Персонаж в гробу,ты даун,что наделал");
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Недостаточно маны");
+            }
+        }
+
+    }
+    class Armor : Spell//броня
+    {
+        int Arm;
+        int a;
+        public Armor(int ID, string Name, string Rase, string Gender, int MaxMana, int ActMana, int a, int Arm) : base(ID, Name, Rase, Gender, MaxMana, ActMana)//конструктор с параметрами и наследование конструктора персонажа
+        {
+            this.Arm = Arm;
+            this.a = a;
+            this.MaxMana = MaxMana;
+            this.ActMana = ActMana;
+
+        }
+        protected void Armor2HL()//добавление нецязвимости
+        {
+            if (ActMana >= 50)
+            {
+                Console.WriteLine("Хотите ли неуязивомсть?\n 1-da,2-net");
+                switch (a)
+                {
+                    case 1:
+                        Console.WriteLine("Персонаж халк");
+                        break;
+                    case 2:
+                        Console.WriteLine("Персонаж дрыщ,продолжаем бой ");
+                        break;
+                    default:
+                        Console.WriteLine("Персонаж в гробу");
+                        break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Недостаточно маны");
+            }
+        }
+    }
+    class Otomri : Spell//отомри
+    {
+        int Dead;
+        int a;
+        public Otomri(int ID, string Name, string Rase, string Gender, int MaxMana, int ActMana, int a, int Arm, int Dead) : base(ID, Name, Rase, Gender, MaxMana, ActMana)//конструктор с параметрами и наследование конструктора персонажа
+        {
+            this.Dead = Dead;
+            this.a = a;
+            this.MaxMana = MaxMana;
+            this.ActMana = ActMana;
+
+        }
+        protected void Otomri2HL()//снятие заклинания
+        {
+
+            if (ActMana >= 85)
+            {
+                Console.WriteLine("Персонаж парализован,хотите снять заклинание?\n 1-da,2-net");
+                switch (a)
+                {
+                    case 1:
+                        Console.WriteLine("Персонаж ослаблен,тебя щас ");
+                        break;
+                    case 2:
+                        Console.WriteLine("Персонаж парализован ");
+                        break;
+                    default:
+                        Console.WriteLine("Персонаж в гробу");
+                        break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Недостаточно маны");
+            }
+        }
+    }
+    
+    class PVP//бой персонажей
+    {
+        int hp_1;
+        int dm_1;
+        int hp_2;
+        int dm_2;
+        public PVP(int hp_1, int dm_1, int hp_2, int dm_2)//конструктор
+        {
+            this.hp_1 = hp_1;
+            this.dm_1 = dm_1;
+            this.hp_2 = hp_2;
+            this.dm_2 = dm_2;
+        }
+        public void Boi()//срафнение здоровья
+        {
+            while (hp_1 > 0 && hp_2 > 0)
+            {
+                hp_2 = hp_2 - dm_1;
+                hp_1 = hp_1 - dm_2;
+                if (hp_2 <= 0) Console.WriteLine("победил игрок 1");
+                if (hp_1 <= 0) Console.WriteLine("победил игрок 2");
+            }
+        }
+
+    }
+
+
+    class Program
+    {
+
+        static void Main(string[] args)
+        {
+            //заполнение данных 1-го персонажа
+            Console.WriteLine("Задайте данные персонажу Artas");
+            Console.WriteLine("Задайте имя персонажа:");
+            string Name = Console.ReadLine();
+            Console.WriteLine("Задайте id персонажа:");
+            int ID = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Задайте расу персонажа:");
+            string Rase = Console.ReadLine();
+            Console.WriteLine("Задайте пол персонажа:");
+            string Gender = Console.ReadLine();
+            Console.WriteLine("Задайте возраст персонажа:");
+            int Age = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Задайте начальное здоровье");
+            int Health = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Задайте количество маны");
+            int MaxMana = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Задайте на данный момент количество маны");
+            int ActMana = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Задайте силу артефакта");
+            int Artefact2R = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Задайте опыт персонажа");
+            int Exp = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Задайте состояние персонажа");
+            string Status = Console.ReadLine();
+            Console.WriteLine("Хотите чтобы персонаж разговаривал?");
+            Console.WriteLine("True - да\tFalse -нет");
+            bool Speak = Convert.ToBoolean(Console.ReadLine());
+            Console.WriteLine("Хотите чтобы персонаж двигался?");
+            Console.WriteLine("True - да\tFalse -нет");
+            bool Moving = Convert.ToBoolean(Console.ReadLine());
+
+            Hero Artas = new Hero(ID, Name, Rase, Gender, MaxMana, ActMana);
+
+            Artas.ActMana = ActMana;
+            Artas.Artefact = Artefact2R;
+            Artas.MaxMana = MaxMana;
+            Artas.Speak1 = Speak;
+            Artas.Status = Status;
+            Artas.Age = Age;
+            Artas.Health = Health;
+            Artas.Exp = Exp;
+            Artas.Moving = Moving;
+
+
+
+            //заполнение данных 2 персонажа
+            Console.WriteLine("Задайте данные персонажу Illidan");
+            Console.WriteLine("Задайте имя персонажа:");
+            string Name1 = Console.ReadLine();
+            Console.WriteLine("Задайте id персонажа:");
+            int ID1 = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Задайте расу персонажа:");
+            string Rase1 = Console.ReadLine();
+            Console.WriteLine("Задайте пол персонажа:");
+            string Gender1 = Console.ReadLine();
+            Console.WriteLine("Задайте возраст персонажа:");
+            int Age1 = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Задайте начальное здоровье");
+            int Health1 = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Задайте количество маны");
+            int MaxMana1 = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Задайте на данный момент количество маны");
+            int ActMana1 = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Задайте силу артефакта");
+            int Artefact4R = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Задайте опыт персонажа");
+            int Exp1 = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Задайте состояние персонажа");
+            string Status1 = Console.ReadLine();
+            Console.WriteLine("Хотите чтобы персонаж разговаривал?");
+            Console.WriteLine("True - да\tFalse -нет");
+            bool Speak1 = Convert.ToBoolean(Console.ReadLine());
+            Console.WriteLine("Хотите чтобы персонаж двигался?");
+            Console.WriteLine("True - да\tFalse -нет");
+            bool Moving1 = Convert.ToBoolean(Console.ReadLine());
+
+            Hero Illidan = new Hero(ID1, Name1, Rase1, Gender1, MaxMana1, ActMana1);
+
+            Illidan.ActMana = ActMana1;
+            Illidan.Artefact = Artefact4R;
+            Illidan.MaxMana = MaxMana1;
+            Illidan.Speak1 = Speak1;
+            Illidan.Status = Status1;
+            Illidan.Age = Age1;
+            Illidan.Health = Health1;
+            Illidan.Exp = Exp1;
+            Illidan.Moving = Moving1;
+
+            var ExpCheck = Artas.CompareTo(Illidan);
+            if (Health >= 10)
+            {
+                Console.WriteLine("Artas цел, жив и здоров");
+            }
+            else if (Health == 0)
+            {
+                Console.WriteLine("Artas умер");
+            }
+            else
+            {
+                Console.WriteLine("Artas ослаблен");
+            }
+            if (Health >= 10)
+            {
+                Console.WriteLine("Illidan цел, жив и здоров");
+            }
+            else if (Health == 0)
+            {
+                Console.WriteLine("Illidan Мёртв");
+            }
+            else
+            {
+                Console.WriteLine("Illidan ослаблен");
+            }
+            PVP pvp = new PVP(400, 125, 320, 50);
+            pvp.Boi();
+            Console.ReadKey();
+
+        }
+    }
+}
