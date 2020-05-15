@@ -1,0 +1,99 @@
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace Lab22
+{
+    public class Matrix
+    {
+        int[,] matrix;
+
+        public int Row { get; protected set; }
+        public int Column { get; protected set; }
+
+        public Matrix(int row, int column)
+        {
+            Row = row;
+            Column = column;
+            matrix = new int[row, column];
+        }
+
+        Matrix result;
+        public Matrix MultipleFlex(Matrix value) // выполнение умножения
+        {
+            result = new Matrix(Row, value.Column);
+            Multiple(value);
+            return result;
+        }
+        public async void Multiple(Matrix value) //алгоритм умножение матрицы; async - указываем, что в методе могут содержаться выражения await
+        {
+            for (int i = 0; i < Row; i++)
+            {
+                for (int j = 0; j < value.Column; j++)
+                {
+                    await Task.Run(() => // определили задачу, которая будет выполнятся асинхронно
+                    {
+                        for (int k = 0; k < value.Row; k++)
+                        {
+                            Console.WriteLine(Thread.CurrentThread.Name);
+                            result.matrix[i, j] += matrix[i, k] * value.matrix[k, j];
+                        }
+                    });
+                }
+            }
+
+
+        }
+
+
+        public void Read()
+        {
+            for (int i = 0; i < Row; i++)
+            {
+                for (int j = 0; j < Column; j++)
+                {
+                    Console.Write("Введите элемент [{0},{1}]: ", i + 1, j + 1);
+                    matrix[i, j] = System.Convert.ToInt32(Console.ReadLine());
+                }
+            }
+        }
+
+        public void Print()
+        {
+            for (int i = 0; i < Row; i++)
+            {
+                for (int j = 0; j < Column; j++)
+                {
+                    Console.Write("{0:f2} ", matrix[i, j]);
+                }
+
+                Console.WriteLine();
+            }
+        }
+    }
+
+    class Program
+    {
+
+        static void Main(string[] args)
+        {
+            Matrix vector = new Matrix(1, 2);
+            Matrix matrix = new Matrix(2, 2); // можем изменять размер матрицы
+            Console.Clear();
+            Console.WriteLine("Ввод вектора");
+            vector.Read();
+            Console.WriteLine("\nВвод матрицы");
+            matrix.Read();
+            Console.Clear();
+            Matrix result = vector.MultipleFlex(matrix);
+            Console.WriteLine("Вектор");
+            vector.Print();
+            Console.WriteLine("\nМатрица");
+            matrix.Print();
+            Console.WriteLine("\nРезультат умножения матрицы на вектор");
+            result.Print();
+            Console.WriteLine("\nНажмите любую клавишу для выхода из программы");
+            Console.ReadKey(true);
+        }
+    }
+}
